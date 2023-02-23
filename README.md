@@ -1,6 +1,46 @@
 # Módulo Docker
 
-Comandos básicos:
+## Principais conceitos de Docker e Containers
+
+### O que são Containers?
+Por definição, o container é um padrão de unidade de software que empacota o código e todas as dependências de uma aplicação, fazendo com que a mesma seja executada de forma rápida e confiável de um ambiente computacional para o outro.
+
+Em outras palavras, o container é uma forma de conseguirmos rodar as nossas aplicações entre sistemas num padrão mais uniforme.
+
+### Como funcionam os Containers?
+Sendo um processo que roda no seu sistema operacional, o container tem como base três pilares:
+
+### `Namespaces`
+Os `Namespaces` isolam os processos e evitam conflitos quando outras partes do nosso sistema operacional geram o risco de afetar o que nós planejamos utilizar.
+
+### `CGroups`
+O `CGroups` evita a sobrecarga dos processos para que os recursos do nosso sistema não prejudiquem toda a operação.
+
+### `OFS (OVERLAY FILE SYSTEM)`
+Com o `OFS` o `container` pode criar camadas de arquivos reutilizáveis em outros containers, tornando todo o processo mais leve devido ao reaproveitamento dos arquivos.
+
+Se o seu container utiliza Ubuntu, por exemplo, que baixou várias camadas de código nele, assim que houver um outro container rodando Ubuntu ele reaproveita as mesmas camadas para evitar que tudo fique saturado.
+
+### Sistema Operacional
+Como um processo atribuído, o container é uma instância que nós colocamos para rodar com base numa imagem. E a imagem é basicamente uma cópia, como um snapshot da aplicação ou de qualquer outra coisa que você criou. Mas essa imagem também é imutável, então você não consegue modificá-la enquanto ela estiver rodando dentro do container.
+
+Isso significa que ao subir o container você vai ter uma imagem que não é alterada, apesar de ser possível gravar informações dentro dos containers, já que esse padrão oferece uma camada de leitura e escrita para guardarmos informações. Porém, se o container morrer, você também vai perder tudo o que você escreveu.
+
+Por isso é importante trabalhar com boas práticas para garantir que você não vai salvar novas imagens dentro dos containers, ou arquivos que você deveria ter utilizado. Então você já deve considerar que um container é efêmero, e as informações que você grava nele serão perdidas uma vez que a imagem é inalterável.
+
+`Dockerfile`
+Para gerar uma nova imagem você pode trabalhar normalmente com um arquivo chamado `Dockerfile`, que sempre cria uma imagem a partir de outra imagem.
+
+Pelo comando FROM: “ImageName” – FROM: Ubuntu, por exemplo – ele vai criar a imagem a partir da imagem do Ubutu, que vai rodar os comandos para instalar alguma coisa e vai expor, por exemplo, a porta 8000 para deixá-lo trabalhar.
+
+Ao fazer o Dockerfile você gera um build, que vai gerar a imagem. Então no final das contas você gera um build a partir do próprio Dockerfile.
+
+### `Repositórios de imagens`
+É importante destacar que ao gerar uma build você também pode pegar a imagem e guardá-la num registro de imagens. Você pode trabalhar com isso da seguinte forma:
+
+Se você solicitar uma imagem de Ubuntu, por exemplo, o Dockerfile inicia um processo de pull para trazer essa imagem do registro. E ao fazer isso ele roda todos os comandos necessários para que você faça o push e comece a utilizá-lo, basicamente.
+
+## Comandos básicos:
 
 Para executar um `Container`:
 ```shell
@@ -71,3 +111,24 @@ docker run -d --name server -p 80:80 --mount type=bind,source="$(pwd)",target=pa
 - Onde `$(pwd)` é um atalho para o caminho de onde você está.
 
 A diferença entre `-v` e `--mount` é que se o source não existir o `--mount` retorna um erro, já o `-v` cria a pasta no `Container`.
+
+Volumes no `Docker`:
+```shell
+docker volume
+```
+- create;
+- inspect;
+- ls;
+- prune;
+- rm;
+
+Criando um volume:
+
+```shell
+docker volume create meuvolume
+```
+
+Mapeando volumes em `Containers`:
+```shell
+docker run -d --name server -p 80:80 --mount type=volume,source=meuvolume,target=path-container-files nginx
+```
