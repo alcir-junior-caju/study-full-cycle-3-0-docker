@@ -1,27 +1,50 @@
-# Módulo Docker
+# Curso Full Cycle 3.0 - Módulo Docker
 
-## Principais conceitos de Docker e Containers
+<div>
+    <img alt="Criado por Alcir Junior [Caju]" src="https://img.shields.io/badge/criado%20por-Alcir Junior [Caju]-%23f08700">
+    <img alt="License" src="https://img.shields.io/badge/license-MIT-%23f08700">
+</div>
 
-### O que são Containers?
+---
+
+## Descrição
+
+O Curso Full Cycle é uma formação completa para fazer com que pessoas desenvolvedoras sejam capazes de trabalhar em projetos expressivos sendo capazes de desenvolver aplicações de grande porte utilizando de boas práticas de desenvolvimento.
+
+---
+
+## Repositório Pai
+https://github.com/alcir-junior-caju/study-full-cycle-3-0
+
+---
+
+## Visualizar o projeto na IDE:
+
+Para quem quiser visualizar o projeto na IDE clique no teclado a tecla `ponto`, esse recurso do GitHub é bem bacana
+
+---
+### Principais conceitos de Docker e Containers
+
+#### O que são Containers?
 Por definição, o container é um padrão de unidade de software que empacota o código e todas as dependências de uma aplicação, fazendo com que a mesma seja executada de forma rápida e confiável de um ambiente computacional para o outro.
 
 Em outras palavras, o container é uma forma de conseguirmos rodar as nossas aplicações entre sistemas num padrão mais uniforme.
 
-### Como funcionam os Containers?
+#### Como funcionam os Containers?
 Sendo um processo que roda no seu sistema operacional, o container tem como base três pilares:
 
-### `Namespaces`
+#### Namespaces
 Os `Namespaces` isolam os processos e evitam conflitos quando outras partes do nosso sistema operacional geram o risco de afetar o que nós planejamos utilizar.
 
-### `CGroups`
+#### CGroups
 O `CGroups` evita a sobrecarga dos processos para que os recursos do nosso sistema não prejudiquem toda a operação.
 
-### `OFS (OVERLAY FILE SYSTEM)`
+#### OFS (OVERLAY FILE SYSTEM)
 Com o `OFS` o `container` pode criar camadas de arquivos reutilizáveis em outros containers, tornando todo o processo mais leve devido ao reaproveitamento dos arquivos.
 
 Se o seu container utiliza Ubuntu, por exemplo, que baixou várias camadas de código nele, assim que houver um outro container rodando Ubuntu ele reaproveita as mesmas camadas para evitar que tudo fique saturado.
 
-### Sistema Operacional
+#### Sistema Operacional
 Como um processo atribuído, o container é uma instância que nós colocamos para rodar com base numa imagem. E a imagem é basicamente uma cópia, como um snapshot da aplicação ou de qualquer outra coisa que você criou. Mas essa imagem também é imutável, então você não consegue modificá-la enquanto ela estiver rodando dentro do container.
 
 Isso significa que ao subir o container você vai ter uma imagem que não é alterada, apesar de ser possível gravar informações dentro dos containers, já que esse padrão oferece uma camada de leitura e escrita para guardarmos informações. Porém, se o container morrer, você também vai perder tudo o que você escreveu.
@@ -35,12 +58,16 @@ Pelo comando FROM: “ImageName” – FROM: Ubuntu, por exemplo – ele vai cri
 
 Ao fazer o Dockerfile você gera um build, que vai gerar a imagem. Então no final das contas você gera um build a partir do próprio Dockerfile.
 
-### `Repositórios de imagens`
+#### Repositórios de imagens
 É importante destacar que ao gerar uma build você também pode pegar a imagem e guardá-la num registro de imagens. Você pode trabalhar com isso da seguinte forma:
 
 Se você solicitar uma imagem de Ubuntu, por exemplo, o Dockerfile inicia um processo de pull para trazer essa imagem do registro. E ao fazer isso ele roda todos os comandos necessários para que você faça o push e comece a utilizá-lo, basicamente.
 
-## Comandos básicos:
+As imagens ficam armazenadas no Docker Hub, que é o Container Registry da Docker, mas existe outros Containers como da Amazon, Google Cloud Plataform, Azure, etc, no caso essas imagens são privadas pois você vai estar autenticado nesses serviços.
+
+Imagens sempre trabalham com TAGS que são versões de cada imagem.
+
+#### Comandos básicos:
 
 Para executar um `Container`:
 ```shell
@@ -132,3 +159,41 @@ Mapeando volumes em `Containers`:
 ```shell
 docker run -d --name server -p 80:80 --mount type=volume,source=meuvolume,target=path-container-files nginx
 ```
+
+Baixar uma imagem:
+```shell
+docker pull ubuntu
+```
+Como o docker trabalha com camadas, ele baixa apenas o que for necessário, caso exista uma imagem que possua uma camada em comum com outra imagem não é necessário baixar novamente, pois o uso é compartilhado.
+
+
+Listar imagens:
+```shell
+docker images
+```
+
+Removendo imagens:
+```shell
+docker rmi php:latest
+```
+
+Criando uma imagem a partir do Dockerfile:
+```shell
+docker build -t webcaju/nginx-vim:latest ./01-docker
+```
+- Onde `-t` é para o nome da tag da imagem;
+- Onde `webcaju` é o meu usário no Docker Hub;
+- Onde `nginx-vim:latest` é o nome e a tag;
+- Onde `./01-docker` o diretório onde está meu `dockerfile`.
+
+Removendo todos containers:
+```shell
+docker rm $(docker ps -a -q) -f
+```
+
+Substituindo comandos do dockerfile por parâmetros:
+```shell
+docker run --rm webcaju/hello:latest echo "oi"
+```
+
+- A diferença entre o `CMD` e o `ENTRYPOINT` é que `CMD` entra como parâmetro e o `ENTRYPOINT` é um comando fixo.
