@@ -67,6 +67,15 @@ As imagens ficam armazenadas no Docker Hub, que é o Container Registry da Docke
 
 Imagens sempre trabalham com TAGS que são versões de cada imagem.
 
+#### Tipos de Networks
+- Bridge: É a default, quando não se cria nenhuma configuração de network, ele assume o `bridge`. O uso mais comum é quando um Container se comunica com outro.
+- Host: Mescla a network do Docker Host com a do Docker, com isso não é necessária a exposição de portas (Obs.: Não funciona no mac, apenas no linux e windows com wsl2).
+- Overlay: Não é muito comum, mas quando se tem vários Docker em máquinas diferentes, e eles precisam se conectar.
+- Macvlan: Quando se precisa setar um macaddress em um Docker, com isso parece que tem um network disponível em sua network.
+- None: Quando se cria um Docker que vai rodar de forma isolada.
+
+Para acessar algum recurso fora do Docker pode se usar o `http://host.docker.internal:8000` com isso pode se acessar algum serviço externo ao Docker.
+
 #### Comandos básicos:
 
 Para executar um `Container`:
@@ -197,3 +206,27 @@ docker run --rm webcaju/hello:latest echo "oi"
 ```
 
 - A diferença entre o `CMD` e o `ENTRYPOINT` é que `CMD` entra como parâmetro e o `ENTRYPOINT` é um comando fixo.
+
+Listar as Network:
+```shell
+docker network ls
+```
+Criar uma Network:
+```shell
+docker network create --driver bridge mynetwork
+```
+
+Adicionando uma Network:
+```shell
+docker run -dit --name ubuntu1 --network mynetwork bash
+```
+
+Conectando um Docker a uma Network:
+```shell
+docker network connect mynetwork ubuntu3
+```
+
+Inspecionar uma Network:
+```shell
+docker network inspect mynetwork
+```
