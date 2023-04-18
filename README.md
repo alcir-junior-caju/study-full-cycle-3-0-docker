@@ -193,7 +193,8 @@ docker build -t webcaju/nginx-vim:latest ./01-docker
 - Onde `-t` é para o nome da tag da imagem;
 - Onde `webcaju` é o meu usário no Docker Hub;
 - Onde `nginx-vim:latest` é o nome e a tag;
-- Onde `./01-docker` o diretório onde está meu `dockerfile`.
+- Onde `./01-docker` o diretório onde está meu `dockerfile`;
+- Caso precise escolher o `dockerfile` use `-f` seguido do arquivo.
 
 Removendo todos containers:
 ```shell
