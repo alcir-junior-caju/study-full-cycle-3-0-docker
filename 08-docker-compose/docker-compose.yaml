@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+  laravel:
+    image: webcaju/laravel:prod
+    container_name: laravel
+    networks:
+      - laranet
+
+  server:
+    image: webcaju/server:prod
+    container_name: server
+    networks:
+      - laranet
+    ports:
+      - "8080:80"
+
+networks:
+  laranet:
+    driver: bridge

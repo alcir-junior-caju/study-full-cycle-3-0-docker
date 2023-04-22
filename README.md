@@ -231,3 +231,28 @@ Inspecionar uma Network:
 ```shell
 docker network inspect mynetwork
 ```
+
+#### Docker Compose
+
+O `Docker Compose` é um facilitador, para ajudar na rotina do dia a dia.
+
+Após configurar o `yaml` podemos rodar os seguintes comandos. (Veja exemplos dos arquivos `yaml` nos diretórios `xx-docker-compose`)
+
+#### Comandos básicos:
+
+Executar containers:
+```shell
+docker compose up
+```
+- Use `-d` para deixar o terminal livre.
+- Use `--build` quando tiver que fizer `build` em alguma imagem que o `dockerfile` foi alterado.
+
+Parar containers:
+```shell
+docker compose down
+```
+
+Executar containers:
+```shell
+docker compose up
+```
