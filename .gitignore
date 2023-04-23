@@ -1,2 +1,3 @@
 node_modules
-*/mysql
+10-docker-compose/mysql
+12-desafio-nginx/mysql/data
